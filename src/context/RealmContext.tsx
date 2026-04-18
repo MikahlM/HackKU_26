@@ -12,6 +12,14 @@ interface Meals {
   dinner: boolean;
 }
 
+export interface Recipe {
+  id: string;
+  name: string;
+  calories: number;
+  protein: number;
+  icon: string;
+}
+
 interface RealmContextType {
   // Goals
   goals: Goals;
@@ -22,6 +30,10 @@ interface RealmContextType {
   proteinLogged: number;
   caloriesLogged: number;
   mealsLogged: Meals;
+
+  // Custom Recipes
+  customRecipes: Recipe[];
+  addCustomRecipe: (recipe: Omit<Recipe, 'id'>) => void;
 
   // Derived Percentages (0 to 100)
   waterPercent: number;
@@ -34,6 +46,7 @@ interface RealmContextType {
   // Actions
   drinkWater: () => void;
   eatProtein: () => void;
+  logProtein: (amount: number) => void;
   logMeal: (meal: keyof Meals) => void;
   logCalories: (amount: number) => void;
 }
@@ -58,6 +71,9 @@ export function RealmProvider({ children }: { children: ReactNode }) {
     dinner: false
   });
 
+  // Custom recipes state
+  const [customRecipes, setCustomRecipes] = useState<Recipe[]>([]);
+
   // Derived state
   const waterPercent = Math.min(Math.round((waterLogged / goals.water) * 100), 100);
   const proteinPercent = Math.min(Math.round((proteinLogged / goals.protein) * 100), 100);
@@ -76,12 +92,24 @@ export function RealmProvider({ children }: { children: ReactNode }) {
     setProteinLogged(prev => Math.min(prev + 30, goals.protein));
   };
 
+  const logProtein = (amount: number) => {
+    setProteinLogged(prev => Math.min(prev + amount, goals.protein));
+  };
+
   const logMeal = (meal: keyof Meals) => {
     setMealsLogged(prev => ({ ...prev, [meal]: true }));
   };
 
   const logCalories = (amount: number) => {
     setCaloriesLogged(prev => Math.min(prev + amount, goals.calories));
+  };
+
+  const addCustomRecipe = (recipe: Omit<Recipe, 'id'>) => {
+    const newRecipe: Recipe = {
+      ...recipe,
+      id: Date.now().toString()
+    };
+    setCustomRecipes(prev => [...prev, newRecipe]);
   };
 
   return (
@@ -92,12 +120,15 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       proteinLogged,
       caloriesLogged,
       mealsLogged,
+      customRecipes,
+      addCustomRecipe,
       waterPercent,
       proteinPercent,
       caloriesPercent,
       isMonsterDefeated,
       drinkWater,
       eatProtein,
+      logProtein,
       logMeal,
       logCalories
     }}>
