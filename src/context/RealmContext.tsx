@@ -20,6 +20,15 @@ export interface Recipe {
   icon: string;
 }
 
+export interface UserProfile {
+  name: string;
+  age: number | '';
+  height_ft: number | ''; // feet
+  height_in: number | ''; // inches
+  weight: number | ''; // lbs
+  goal: 'cut' | 'bulk' | 'maintain';
+}
+
 interface RealmContextType {
   // Goals
   goals: Goals;
@@ -34,6 +43,10 @@ interface RealmContextType {
   // Custom Recipes
   customRecipes: Recipe[];
   addCustomRecipe: (recipe: Omit<Recipe, 'id'>) => void;
+
+  // User Profile
+  userProfile: UserProfile;
+  updateUserProfile: (profile: Partial<UserProfile>) => void;
 
   // Derived Percentages (0 to 100)
   waterPercent: number;
@@ -74,6 +87,16 @@ export function RealmProvider({ children }: { children: ReactNode }) {
   // Custom recipes state
   const [customRecipes, setCustomRecipes] = useState<Recipe[]>([]);
 
+  // User profile state
+  const [userProfile, setUserProfile] = useState<UserProfile>({
+    name: 'AwesomeDude',
+    age: '',
+    height_ft: '',
+    height_in: '',
+    weight: '',
+    goal: 'maintain'
+  });
+
   // Derived state
   const waterPercent = Math.min(Math.round((waterLogged / goals.water) * 100), 100);
   const proteinPercent = Math.min(Math.round((proteinLogged / goals.protein) * 100), 100);
@@ -112,6 +135,10 @@ export function RealmProvider({ children }: { children: ReactNode }) {
     setCustomRecipes(prev => [...prev, newRecipe]);
   };
 
+  const updateUserProfile = (profile: Partial<UserProfile>) => {
+    setUserProfile(prev => ({ ...prev, ...profile }));
+  };
+
   return (
     <RealmContext.Provider value={{
       goals,
@@ -122,6 +149,8 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       mealsLogged,
       customRecipes,
       addCustomRecipe,
+      userProfile,
+      updateUserProfile,
       waterPercent,
       proteinPercent,
       caloriesPercent,

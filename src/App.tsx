@@ -7,6 +7,7 @@ import Planner from './pages/Planner';
 import Community from './pages/Community';
 import Realm from './pages/Realm';
 import Shop from './pages/Shop';
+import Profile from './pages/Profile';
 import { RealmProvider } from './context/RealmContext';
 
 function MainLayout() {
@@ -20,6 +21,7 @@ function MainLayout() {
     '/community': 'Community Feed',
     '/realm': 'Digital Realm Map',
     '/shop': 'NutriShop',
+    '/profile': 'User Profile',
   };
   
   const currentTitle = titles[location.pathname] || 'NutriSnap';
@@ -37,6 +39,7 @@ function MainLayout() {
             <Route path="/community" element={<Community />} />
             <Route path="/realm" element={<Realm />} />
             <Route path="/shop" element={<Shop />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </main>
