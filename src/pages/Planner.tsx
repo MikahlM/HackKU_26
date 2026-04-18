@@ -9,7 +9,7 @@ interface ChatMessage {
 }
 
 export default function Planner() {
-  const { goals, updateGoals } = useRealm();
+  const { goals, updateGoals, userProfile } = useRealm();
   const [isSaved, setIsSaved] = useState(false);
 
   // Form State
@@ -61,12 +61,19 @@ export default function Planner() {
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({
         model: "gemini-2.5-flash",
-        systemInstruction: "You are YumBot,\
-              a motivating nutrition assistant.\
-              Your goal is to give users infomation about nutrition and macros in food.\
-              Keep your responses short and simple.\
-              The only macros needed for this app is:\
-              Daily water goals, protein goals, and daily calories goals."
+        systemInstruction: `You are YumBot, a motivating nutrition assistant.
+              Your goal is to give users information about nutrition and macros in food.
+              Keep your responses short and simple.
+              The only macros needed for this app are Daily water goals, protein goals, and daily calories goals.
+
+              You are talking to:
+              Name: ${userProfile.name || 'User'}
+              Age: ${userProfile.age || 'Unknown'}
+              Height: ${userProfile.height_ft ? `${userProfile.height_ft}ft ${userProfile.height_in}in` : 'Unknown'}
+              Weight: ${userProfile.weight ? `${userProfile.weight} lbs` : 'Unknown'}
+              Fitness Goal: ${userProfile.goal}
+
+              Tailor your advice to their specific stats and goal!`
       });
 
       const result = await model.generateContent(userMsg);
