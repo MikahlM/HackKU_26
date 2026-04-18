@@ -21,7 +21,7 @@ export default function Planner() {
 
   // Chatbot State
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
-    { role: 'ai', text: "Hello! I'm your AI nutrition assistant. How can I help you plan your meals or macros today?" }
+    { role: 'ai', text: "Hello! My name is YumBot. How can I help you plan your macros?" }
   ]);
   const [chatInput, setChatInput] = useState('');
   const [isChatLoading, setIsChatLoading] = useState(false);
@@ -51,7 +51,7 @@ export default function Planner() {
     try {
       // Access the Vite environment variable
       const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-      
+
       if (!apiKey) {
         setChatHistory(prev => [...prev, { role: 'ai', text: "Error: No API key found. Please make sure VITE_GEMINI_API_KEY is set in your .env file." }]);
         setIsChatLoading(false);
@@ -59,16 +59,16 @@ export default function Planner() {
       }
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-      
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
       const result = await model.generateContent(userMsg);
       const response = await result.response;
       const text = response.text();
 
       setChatHistory(prev => [...prev, { role: 'ai', text }]);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
-      setChatHistory(prev => [...prev, { role: 'ai', text: "Oops, something went wrong connecting to Gemini. Please check your API key and internet connection." }]);
+      setChatHistory(prev => [...prev, { role: 'ai', text: `API Error: ${error?.message || 'Something went wrong.'}` }]);
     } finally {
       setIsChatLoading(false);
     }
@@ -76,7 +76,7 @@ export default function Planner() {
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-      
+
       {/* LEFT COLUMN: Goals Form */}
       <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
         <div className="card-header" style={{ marginBottom: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem' }}>
@@ -188,15 +188,15 @@ export default function Planner() {
         <h3 style={{ color: 'var(--accent)', fontSize: '1.25rem', fontWeight: 600, borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <Bot /> AI Assistant
         </h3>
-        
+
         {/* Chat History */}
         <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1rem', paddingRight: '0.5rem', marginBottom: '1rem' }}>
           {chatHistory.map((msg, idx) => (
             <div key={idx} style={{ alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '85%' }}>
-              <div style={{ 
-                backgroundColor: msg.role === 'user' ? 'var(--primary)' : 'rgba(255,255,255,0.1)', 
+              <div style={{
+                backgroundColor: msg.role === 'user' ? 'var(--primary)' : 'rgba(255,255,255,0.1)',
                 color: msg.role === 'user' ? '#0f172a' : 'var(--text-main)',
-                padding: '0.8rem 1rem', 
+                padding: '0.8rem 1rem',
                 borderRadius: 'var(--radius-md)',
                 borderBottomRightRadius: msg.role === 'user' ? '0' : 'var(--radius-md)',
                 borderBottomLeftRadius: msg.role === 'ai' ? '0' : 'var(--radius-md)',
@@ -216,31 +216,31 @@ export default function Planner() {
 
         {/* Chat Input */}
         <form onSubmit={handleSendMessage} style={{ display: 'flex', gap: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem' }}>
-          <input 
-            type="text" 
+          <input
+            type="text"
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             placeholder="Ask about your macros..."
             disabled={isChatLoading}
-            style={{ 
-              flex: 1, 
-              padding: '0.8rem', 
-              backgroundColor: 'rgba(0,0,0,0.2)', 
-              border: '1px solid rgba(255,255,255,0.1)', 
-              borderRadius: 'var(--radius-md)', 
+            style={{
+              flex: 1,
+              padding: '0.8rem',
+              backgroundColor: 'rgba(0,0,0,0.2)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 'var(--radius-md)',
               color: 'white',
               outline: 'none'
             }}
           />
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={isChatLoading || !chatInput.trim()}
-            style={{ 
-              padding: '0.8rem 1.2rem', 
-              backgroundColor: isChatLoading || !chatInput.trim() ? 'rgba(255,255,255,0.05)' : 'var(--accent)', 
-              color: isChatLoading || !chatInput.trim() ? 'var(--text-muted)' : 'white', 
-              border: 'none', 
-              borderRadius: 'var(--radius-md)', 
+            style={{
+              padding: '0.8rem 1.2rem',
+              backgroundColor: isChatLoading || !chatInput.trim() ? 'rgba(255,255,255,0.05)' : 'var(--accent)',
+              color: isChatLoading || !chatInput.trim() ? 'var(--text-muted)' : 'white',
+              border: 'none',
+              borderRadius: 'var(--radius-md)',
               cursor: isChatLoading || !chatInput.trim() ? 'default' : 'pointer',
               display: 'flex',
               alignItems: 'center',
