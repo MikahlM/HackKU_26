@@ -59,7 +59,15 @@ export default function Planner() {
       }
 
       const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const model = genAI.getGenerativeModel({
+        model: "gemini-2.5-flash",
+        systemInstruction: "You are YumBot,\
+              a motivating nutrition assistant.\
+              Your goal is to give users infomation about nutrition and macros in food.\
+              Keep your responses short and simple.\
+              The only macros needed for this app is:\
+              Daily water goals, protein goals, and daily calories goals."
+      });
 
       const result = await model.generateContent(userMsg);
       const response = await result.response;
