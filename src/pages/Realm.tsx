@@ -6,16 +6,19 @@ import townMapOg from '../assets/town_drawing_og.png';
 import townMapBreakfast from '../assets/town_drawing_breakfast.png';
 import townMapLunch from '../assets/town_drawing_lunch.png';
 import townMapDinner from '../assets/town_drawing_dinner.png';
+import townMapComplete from '../assets/town_drawing.png';
 
 export default function Realm() {
-  const { waterPercent, proteinPercent, isMonsterDefeated, mealsLogged } = useRealm();
+  const { waterPercent, proteinPercent, caloriesPercent, isMonsterDefeated, mealsLogged } = useRealm();
 
   const fogOpacity = Math.max(0, 1 - (waterPercent / 100));
   const fogBlur = Math.max(0, (100 - waterPercent) / 40);
 
-  // Determine current map based on logged meals
+  // Determine current map based on logged meals and calories
   let currentMap = townMapOg;
-  if (mealsLogged.dinner) {
+  if (caloriesPercent >= 100) {
+    currentMap = townMapComplete;
+  } else if (mealsLogged.dinner) {
     currentMap = townMapDinner;
   } else if (mealsLogged.lunch) {
     currentMap = townMapLunch;
