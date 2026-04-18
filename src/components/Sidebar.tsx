@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { PieChart, Utensils, Calendar, Users, Gamepad2, Store, Leaf } from 'lucide-react';
+import catpic from '../assets/cat.jpg';
 
 export default function Sidebar() {
   const navItems = [
@@ -33,7 +34,7 @@ export default function Sidebar() {
       </ul>
 
       <div className="user-profile">
-        <img src="https://i.pravatar.cc/150?img=68" alt="Profile" className="avatar" />
+        <img src={catpic} alt="Profile" className="avatar" />
         <div className="user-info">
           <span className="user-name">AwesomeDude</span>
           <span className="user-level">Lvl 0 (0 XP)</span>
