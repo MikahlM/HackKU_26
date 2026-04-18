@@ -26,6 +26,7 @@ interface RealmContextType {
   // Derived Percentages (0 to 100)
   waterPercent: number;
   proteinPercent: number;
+  caloriesPercent: number;
 
   // State
   isMonsterDefeated: boolean;
@@ -34,6 +35,7 @@ interface RealmContextType {
   drinkWater: () => void;
   eatProtein: () => void;
   logMeal: (meal: keyof Meals) => void;
+  logCalories: (amount: number) => void;
 }
 
 const RealmContext = createContext<RealmContextType | undefined>(undefined);
@@ -59,6 +61,7 @@ export function RealmProvider({ children }: { children: ReactNode }) {
   // Derived state
   const waterPercent = Math.min(Math.round((waterLogged / goals.water) * 100), 100);
   const proteinPercent = Math.min(Math.round((proteinLogged / goals.protein) * 100), 100);
+  const caloriesPercent = Math.min(Math.round((caloriesLogged / goals.calories) * 100), 100);
   const isMonsterDefeated = proteinPercent >= 100;
 
   const updateGoals = (newGoals: Goals) => {
@@ -75,8 +78,10 @@ export function RealmProvider({ children }: { children: ReactNode }) {
 
   const logMeal = (meal: keyof Meals) => {
     setMealsLogged(prev => ({ ...prev, [meal]: true }));
-    // Add some demonstration calories when a meal is logged
-    setCaloriesLogged(prev => Math.min(prev + 600, goals.calories));
+  };
+
+  const logCalories = (amount: number) => {
+    setCaloriesLogged(prev => Math.min(prev + amount, goals.calories));
   };
 
   return (
@@ -89,10 +94,12 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       mealsLogged,
       waterPercent,
       proteinPercent,
+      caloriesPercent,
       isMonsterDefeated,
       drinkWater,
       eatProtein,
-      logMeal
+      logMeal,
+      logCalories
     }}>
       {children}
     </RealmContext.Provider>

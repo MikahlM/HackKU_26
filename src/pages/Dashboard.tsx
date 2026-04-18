@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useRealm } from '../context/RealmContext';
-import { Droplets, Beef, Sparkles, CheckSquare, Square, Utensils } from 'lucide-react';
+import { Droplets, Beef, Sparkles, CheckSquare, Square, Utensils, Flame } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
@@ -10,13 +11,24 @@ export default function Dashboard() {
     caloriesLogged,
     waterPercent,
     proteinPercent,
+    caloriesPercent,
     mealsLogged,
     drinkWater,
     eatProtein,
-    logMeal
+    logMeal,
+    logCalories
   } = useRealm();
 
   const navigate = useNavigate();
+  const [calorieInput, setCalorieInput] = useState('');
+
+  const handleLogCalories = () => {
+    const amount = parseInt(calorieInput, 10);
+    if (!isNaN(amount) && amount > 0) {
+      logCalories(amount);
+      setCalorieInput('');
+    }
+  };
 
   return (
     <div className="grid grid-cols-2">
@@ -107,7 +119,66 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* NEW: Daily Meals Checklist */}
+      {/* Quest 3: Calories */}
+      <div className="card" style={{ gridColumn: 'span 2', display: 'flex', flexDirection: 'column', gap: '1.5rem', backgroundColor: 'rgba(249, 115, 22, 0.05)', border: '1px solid rgba(249, 115, 22, 0.2)', marginTop: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ width: '50px', height: '50px', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(249, 115, 22, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Flame size={24} className="text-accent" />
+          </div>
+          <div>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Calorie Tracker</h3>
+            <p className="text-muted" style={{ fontSize: '0.85rem' }}>Stay within your daily energy target</p>
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: 600 }}>
+            <span>Progress</span>
+            <span className="text-accent">{caloriesLogged} / {goals.calories} kcal</span>
+          </div>
+          <div className="macro-bar-bg" style={{ height: '12px' }}>
+            <div className="macro-bar-fill" style={{ width: `${caloriesPercent}%`, backgroundColor: 'var(--accent)', transition: 'width 0.5s ease' }}></div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <input 
+            type="number" 
+            value={calorieInput}
+            onChange={(e) => setCalorieInput(e.target.value)}
+            placeholder="e.g. 450"
+            disabled={caloriesPercent >= 100}
+            style={{
+              flex: 1,
+              padding: '1rem',
+              backgroundColor: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 'var(--radius-md)',
+              color: 'white',
+              fontSize: '1.1rem'
+            }}
+          />
+          <button
+            className="btn"
+            onClick={handleLogCalories}
+            disabled={caloriesPercent >= 100 || !calorieInput}
+            style={{
+              padding: '1rem 2rem',
+              fontSize: '1.1rem',
+              backgroundColor: caloriesPercent >= 100 ? 'rgba(255,255,255,0.05)' : 'rgba(249, 115, 22, 0.15)',
+              color: caloriesPercent >= 100 ? 'var(--text-muted)' : 'var(--accent)',
+              border: caloriesPercent >= 100 ? 'none' : '1px solid rgba(249, 115, 22, 0.4)',
+              justifyContent: 'center',
+              cursor: caloriesPercent >= 100 || !calorieInput ? 'default' : 'pointer',
+              opacity: !calorieInput && caloriesPercent < 100 ? 0.5 : 1
+            }}
+          >
+            {caloriesPercent >= 100 ? 'Target Reached!' : 'Log'}
+          </button>
+        </div>
+      </div>
+
+      {/* Daily Meals Checklist */}
       <div className="card" style={{ gridColumn: 'span 2', display: 'flex', flexDirection: 'column', gap: '1rem', backgroundColor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.1)', marginTop: '1rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '0.5rem' }}>
           <Utensils className="text-accent" />
