@@ -8,6 +8,13 @@ import townMapLunch from '../assets/town_drawing_lunch.png';
 import townMapDinner from '../assets/town_drawing_dinner.png';
 import townMapComplete from '../assets/town_drawing.png';
 
+// Import custom entities
+import avatarImg from '../assets/avatar.png';
+import fireImg from '../assets/fire.png';
+import firedeadImg from '../assets/firedead.png';
+import threatImg from '../assets/threat.png';
+import threatdeadImg from '../assets/threatdead.png';
+
 export default function Realm() {
   const { waterPercent, proteinPercent, caloriesPercent, isMonsterDefeated, mealsLogged } = useRealm();
 
@@ -65,7 +72,7 @@ export default function Realm() {
         }}>
           <div style={{ position: 'relative' }}>
             <div style={{ position: 'absolute', inset: -10, background: 'radial-gradient(circle, rgba(249, 115, 22, 0.6) 0%, transparent 70%)', filter: 'blur(10px)', opacity: 0.8 + ((100 - waterPercent) / 100) }}></div>
-            <span style={{ fontSize: '5rem', filter: 'drop-shadow(0 0 15px rgba(249, 115, 22, 0.9))', position: 'relative', zIndex: 2 }}>🔥</span>
+            <img src={fireImg} alt="Fire Threat" style={{ width: '80px', height: '80px', filter: 'drop-shadow(0 0 15px rgba(249, 115, 22, 0.9))', position: 'relative', zIndex: 2, objectFit: 'contain' }} />
           </div>
           <div style={{ background: 'rgba(15, 23, 42, 0.85)', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem', marginTop: '1rem', border: '1px solid rgba(249, 115, 22, 0.5)', display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fdba74', backdropFilter: 'blur(4px)' }}>
             <ShieldAlert size={16} />
@@ -86,7 +93,7 @@ export default function Realm() {
           alignItems: 'center',
           animation: 'fadeIn 1s ease forwards'
         }}>
-          <span style={{ fontSize: '4rem', opacity: 0.4, filter: 'grayscale(100%)' }}>💧</span>
+          <img src={firedeadImg} alt="Fire Extinguished" style={{ width: '80px', height: '80px', opacity: 0.6, filter: 'grayscale(100%)', objectFit: 'contain' }} />
           <div style={{ background: 'rgba(56, 189, 248, 0.2)', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem', marginTop: '1rem', color: 'var(--secondary)', border: '1px solid rgba(56, 189, 248, 0.4)', backdropFilter: 'blur(4px)' }}>
             Fire Extinguished
           </div>
@@ -107,7 +114,7 @@ export default function Realm() {
         }}>
           <div style={{ position: 'relative' }}>
             <div style={{ position: 'absolute', inset: -10, background: 'radial-gradient(circle, rgba(239, 68, 68, 0.6) 0%, transparent 70%)', filter: 'blur(10px)', opacity: 0.8 + (proteinPercent / 100) }}></div>
-            <span style={{ fontSize: '5rem', filter: 'drop-shadow(0 0 15px rgba(239, 68, 68, 0.9))', position: 'relative', zIndex: 2 }}>🐉</span>
+            <img src={threatImg} alt="Monster Threat" style={{ width: '100px', height: '100px', filter: 'drop-shadow(0 0 15px rgba(239, 68, 68, 0.9))', position: 'relative', zIndex: 2, objectFit: 'contain' }} />
           </div>
           <div style={{ background: 'rgba(15, 23, 42, 0.85)', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem', marginTop: '1rem', border: '1px solid rgba(239, 68, 68, 0.5)', display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#fca5a5', backdropFilter: 'blur(4px)' }}>
             <ShieldAlert size={16} />
@@ -128,7 +135,7 @@ export default function Realm() {
           alignItems: 'center',
           animation: 'fadeIn 1s ease forwards'
         }}>
-          <span style={{ fontSize: '4rem', opacity: 0.4, filter: 'grayscale(100%)' }}>☠️</span>
+          <img src={threatdeadImg} alt="Monster Defeated" style={{ width: '100px', height: '100px', opacity: 0.6, filter: 'grayscale(100%)', objectFit: 'contain' }} />
           <div style={{ background: 'rgba(16, 185, 129, 0.2)', padding: '6px 12px', borderRadius: '6px', fontSize: '0.85rem', marginTop: '1rem', color: 'var(--primary)', border: '1px solid rgba(16, 185, 129, 0.4)', backdropFilter: 'blur(4px)' }}>
             Town Secured
           </div>
@@ -142,10 +149,15 @@ export default function Realm() {
         left: '20%', // Since sidebar is gone, center it more
         zIndex: 15,
         animation: 'float 3s ease-in-out infinite',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
       }}>
-        <div style={{ width: '40px', height: '40px', backgroundColor: 'var(--secondary)', borderRadius: '50%', border: '3px solid white', boxShadow: '0 0 20px var(--secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>
-          🧙‍♂️
-        </div>
+        <img
+          src={avatarImg}
+          alt="Player Avatar"
+          style={{ width: '50px', height: '50px', borderRadius: '50%', border: '3px solid white', boxShadow: '0 0 20px var(--secondary)', objectFit: 'cover' }}
+        />
         <div style={{ background: 'rgba(15, 23, 42, 0.8)', padding: '2px 8px', borderRadius: '12px', fontSize: '0.7rem', color: 'white', marginTop: '0.5rem', textAlign: 'center', border: '1px solid rgba(255,255,255,0.2)' }}>
           You
         </div>

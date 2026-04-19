@@ -40,7 +40,7 @@ export default function Sidebar() {
         <img src={catpic} alt="Profile" className="avatar" />
         <div className="user-info">
           <span className="user-name" style={{ fontSize: '1rem', fontWeight: 'bold' }}>{userProfile.name || 'Set Profile'}</span>
-          <span className="user-level" style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Lvl 0 (0 XP)</span>
+
         </div>
       </NavLink>
     </nav>

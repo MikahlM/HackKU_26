@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRealm } from '../context/RealmContext';
-import { User, Activity, Dumbbell } from 'lucide-react';
+import { User, Dumbbell } from 'lucide-react';
 import catpic from '../assets/cat.jpg';
 
 export default function Profile() {
@@ -32,21 +32,18 @@ export default function Profile() {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      
+
       {/* Header Profile Section */}
       <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '2rem', padding: '2rem' }}>
-        <img 
-          src={catpic} 
-          alt="Profile Avatar" 
-          style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover', border: '4px solid var(--accent)' }} 
+        <img
+          src={catpic}
+          alt="Profile Avatar"
+          style={{ width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover', border: '4px solid var(--accent)' }}
         />
         <div>
           <h1 style={{ fontSize: '2.5rem', fontWeight: 800, margin: '0 0 0.5rem 0', color: 'var(--text-main)' }}>
             {formData.name || 'Your Name'}
           </h1>
-          <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Activity size={18} /> Level 0 Adventurer
-          </p>
         </div>
       </div>
 
@@ -60,7 +57,7 @@ export default function Profile() {
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2rem' }}>
-          
+
           <div style={{ gridColumn: 'span 2' }}>
             <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--text-main)' }}>Name</label>
             <input
