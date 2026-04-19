@@ -48,6 +48,10 @@ interface RealmContextType {
   userProfile: UserProfile;
   updateUserProfile: (profile: Partial<UserProfile>) => void;
 
+  // Economy
+  coins: number;
+  addCoins: (amount: number) => void;
+
   // Derived Percentages (0 to 100)
   waterPercent: number;
   proteinPercent: number;
@@ -97,6 +101,9 @@ export function RealmProvider({ children }: { children: ReactNode }) {
     goal: 'maintain'
   });
 
+  // Economy state
+  const [coins, setCoins] = useState(0);
+
   // Derived state
   const waterPercent = Math.min(Math.round((waterLogged / goals.water) * 100), 100);
   const proteinPercent = Math.min(Math.round((proteinLogged / goals.protein) * 100), 100);
@@ -108,23 +115,52 @@ export function RealmProvider({ children }: { children: ReactNode }) {
   };
 
   const drinkWater = () => {
-    setWaterLogged(prev => Math.min(prev + 8, goals.water));
+    setWaterLogged(prev => {
+      const next = Math.min(prev + 8, goals.water);
+      if (prev < goals.water && next >= goals.water) {
+        setCoins(c => c + 50);
+      }
+      return next;
+    });
   };
 
   const eatProtein = () => {
-    setProteinLogged(prev => Math.min(prev + 30, goals.protein));
+    setProteinLogged(prev => {
+      const next = Math.min(prev + 30, goals.protein);
+      if (prev < goals.protein && next >= goals.protein) {
+        setCoins(c => c + 50);
+      }
+      return next;
+    });
   };
 
   const logProtein = (amount: number) => {
-    setProteinLogged(prev => Math.min(prev + amount, goals.protein));
+    setProteinLogged(prev => {
+      const next = Math.min(prev + amount, goals.protein);
+      if (prev < goals.protein && next >= goals.protein) {
+        setCoins(c => c + 50);
+      }
+      return next;
+    });
   };
 
   const logMeal = (meal: keyof Meals) => {
-    setMealsLogged(prev => ({ ...prev, [meal]: true }));
+    setMealsLogged(prev => {
+      if (!prev[meal]) {
+        setCoins(c => c + 50);
+      }
+      return { ...prev, [meal]: true };
+    });
   };
 
   const logCalories = (amount: number) => {
-    setCaloriesLogged(prev => Math.min(prev + amount, goals.calories));
+    setCaloriesLogged(prev => {
+      const next = Math.min(prev + amount, goals.calories);
+      if (prev < goals.calories && next >= goals.calories) {
+        setCoins(c => c + 50);
+      }
+      return next;
+    });
   };
 
   const addCustomRecipe = (recipe: Omit<Recipe, 'id'>) => {
@@ -151,6 +187,8 @@ export function RealmProvider({ children }: { children: ReactNode }) {
       addCustomRecipe,
       userProfile,
       updateUserProfile,
+      coins,
+      addCoins: (amount) => setCoins(prev => prev + amount),
       waterPercent,
       proteinPercent,
       caloriesPercent,
