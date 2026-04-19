@@ -14,13 +14,14 @@ export default function Dashboard() {
     caloriesPercent,
     mealsLogged,
     drinkWater,
-    eatProtein,
+    logProtein,
     logMeal,
     logCalories
   } = useRealm();
 
   const navigate = useNavigate();
   const [calorieInput, setCalorieInput] = useState('');
+  const [proteinInput, setProteinInput] = useState('');
 
   const handleLogCalories = () => {
     const amount = parseInt(calorieInput, 10);
@@ -30,11 +31,19 @@ export default function Dashboard() {
     }
   };
 
+  const handleLogProtein = () => {
+    const amount = parseInt(proteinInput, 10);
+    if (!isNaN(amount) && amount > 0) {
+      logProtein(amount);
+      setProteinInput('');
+    }
+  };
+
   return (
     <div className="grid grid-cols-2">
       <div style={{ gridColumn: 'span 2', marginBottom: '1rem' }}>
-        <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>Daily Quests Command Center</h2>
-        <p className="text-muted">Log your daily activities here to clear the fog and secure the Digital Realm.</p>
+        <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.5rem' }}>Daily Quests</h2>
+        <p className="text-muted">Complete your daily quests to save your town.</p>
       </div>
 
       {/* Quest 1: Water */}
@@ -45,7 +54,7 @@ export default function Dashboard() {
           </div>
           <div>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Hydration Quest</h3>
-            <p className="text-muted" style={{ fontSize: '0.85rem' }}>Clear the fog from the town map</p>
+            <p className="text-muted" style={{ fontSize: '0.85rem' }}>Put out the fire</p>
           </div>
         </div>
 
@@ -100,23 +109,41 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <button
-          className="btn"
-          onClick={eatProtein}
-          disabled={proteinPercent >= 100}
-          style={{
-            width: '100%',
-            padding: '1rem',
-            fontSize: '1.1rem',
-            backgroundColor: proteinPercent >= 100 ? 'rgba(255,255,255,0.05)' : 'rgba(16, 185, 129, 0.15)',
-            color: proteinPercent >= 100 ? 'var(--text-muted)' : 'var(--primary)',
-            border: proteinPercent >= 100 ? 'none' : '1px solid rgba(16, 185, 129, 0.4)',
-            justifyContent: 'center',
-            cursor: proteinPercent >= 100 ? 'default' : 'pointer'
-          }}
-        >
-          {proteinPercent >= 100 ? 'Quest Complete: Threat Neutralized!' : 'Log Protein (+30g)'}
-        </button>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <input
+            type="number"
+            value={proteinInput}
+            onChange={(e) => setProteinInput(e.target.value)}
+            placeholder="e.g. 30"
+            disabled={proteinPercent >= 100}
+            style={{
+              flex: 1,
+              padding: '1rem',
+              backgroundColor: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: 'var(--radius-md)',
+              color: 'white',
+              fontSize: '1.1rem'
+            }}
+          />
+          <button
+            className="btn"
+            onClick={handleLogProtein}
+            disabled={proteinPercent >= 100 || !proteinInput}
+            style={{
+              padding: '1rem 2rem',
+              fontSize: '1.1rem',
+              backgroundColor: proteinPercent >= 100 ? 'rgba(255,255,255,0.05)' : 'rgba(16, 185, 129, 0.15)',
+              color: proteinPercent >= 100 ? 'var(--text-muted)' : 'var(--primary)',
+              border: proteinPercent >= 100 ? 'none' : '1px solid rgba(16, 185, 129, 0.4)',
+              justifyContent: 'center',
+              cursor: proteinPercent >= 100 || !proteinInput ? 'default' : 'pointer',
+              opacity: !proteinInput && proteinPercent < 100 ? 0.5 : 1
+            }}
+          >
+            {proteinPercent >= 100 ? 'Threat Neutralized!' : 'Log'}
+          </button>
+        </div>
       </div>
 
       {/* Quest 3: Calories */}
@@ -127,7 +154,7 @@ export default function Dashboard() {
           </div>
           <div>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Calorie Tracker</h3>
-            <p className="text-muted" style={{ fontSize: '0.85rem' }}>Stay within your daily energy target</p>
+            <p className="text-muted" style={{ fontSize: '0.85rem' }}>You got this</p>
           </div>
         </div>
 
@@ -142,8 +169,8 @@ export default function Dashboard() {
         </div>
 
         <div style={{ display: 'flex', gap: '1rem' }}>
-          <input 
-            type="number" 
+          <input
+            type="number"
             value={calorieInput}
             onChange={(e) => setCalorieInput(e.target.value)}
             placeholder="e.g. 450"
@@ -184,14 +211,14 @@ export default function Dashboard() {
           <Utensils className="text-accent" />
           <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Daily Meals Log</h3>
         </div>
-        
+
         <p className="text-muted" style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Log your meals below to progress the time of day in the Digital Realm town!</p>
-        
+
         {/* Breakfast */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', backgroundColor: mealsLogged.breakfast ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-md)', transition: 'all 0.3s ease' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-             <span style={{ fontSize: '1.5rem', filter: mealsLogged.breakfast ? 'none' : 'grayscale(100%) opacity(50%)' }}>🍳</span>
-             <span style={{ fontWeight: 600, color: mealsLogged.breakfast ? 'var(--primary)' : 'var(--text-main)' }}>Breakfast</span>
+            <span style={{ fontSize: '1.5rem', filter: mealsLogged.breakfast ? 'none' : 'grayscale(100%) opacity(50%)' }}>🍳</span>
+            <span style={{ fontWeight: 600, color: mealsLogged.breakfast ? 'var(--primary)' : 'var(--text-main)' }}>Breakfast</span>
           </div>
           <button className="btn" onClick={() => logMeal('breakfast')} disabled={mealsLogged.breakfast} style={{ backgroundColor: mealsLogged.breakfast ? 'transparent' : 'var(--accent)', color: mealsLogged.breakfast ? 'var(--primary)' : 'white' }}>
             {mealsLogged.breakfast ? <><CheckSquare size={18} /> Logged</> : <><Square size={18} /> Log</>}
@@ -201,8 +228,8 @@ export default function Dashboard() {
         {/* Lunch */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', backgroundColor: mealsLogged.lunch ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-md)', transition: 'all 0.3s ease' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-             <span style={{ fontSize: '1.5rem', filter: mealsLogged.lunch ? 'none' : 'grayscale(100%) opacity(50%)' }}>🥗</span>
-             <span style={{ fontWeight: 600, color: mealsLogged.lunch ? 'var(--primary)' : 'var(--text-main)' }}>Lunch</span>
+            <span style={{ fontSize: '1.5rem', filter: mealsLogged.lunch ? 'none' : 'grayscale(100%) opacity(50%)' }}>🥗</span>
+            <span style={{ fontWeight: 600, color: mealsLogged.lunch ? 'var(--primary)' : 'var(--text-main)' }}>Lunch</span>
           </div>
           <button className="btn" onClick={() => logMeal('lunch')} disabled={mealsLogged.lunch || !mealsLogged.breakfast} style={{ backgroundColor: mealsLogged.lunch ? 'transparent' : (!mealsLogged.breakfast ? 'rgba(255,255,255,0.05)' : 'var(--accent)'), color: mealsLogged.lunch ? 'var(--primary)' : (!mealsLogged.breakfast ? 'var(--text-muted)' : 'white') }}>
             {mealsLogged.lunch ? <><CheckSquare size={18} /> Logged</> : <><Square size={18} /> Log</>}
@@ -212,8 +239,8 @@ export default function Dashboard() {
         {/* Dinner */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', backgroundColor: mealsLogged.dinner ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-md)', transition: 'all 0.3s ease' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-             <span style={{ fontSize: '1.5rem', filter: mealsLogged.dinner ? 'none' : 'grayscale(100%) opacity(50%)' }}>🐟</span>
-             <span style={{ fontWeight: 600, color: mealsLogged.dinner ? 'var(--primary)' : 'var(--text-main)' }}>Dinner</span>
+            <span style={{ fontSize: '1.5rem', filter: mealsLogged.dinner ? 'none' : 'grayscale(100%) opacity(50%)' }}>🐟</span>
+            <span style={{ fontWeight: 600, color: mealsLogged.dinner ? 'var(--primary)' : 'var(--text-main)' }}>Dinner</span>
           </div>
           <button className="btn" onClick={() => logMeal('dinner')} disabled={mealsLogged.dinner || !mealsLogged.lunch} style={{ backgroundColor: mealsLogged.dinner ? 'transparent' : (!mealsLogged.lunch ? 'rgba(255,255,255,0.05)' : 'var(--accent)'), color: mealsLogged.dinner ? 'var(--primary)' : (!mealsLogged.lunch ? 'var(--text-muted)' : 'white') }}>
             {mealsLogged.dinner ? <><CheckSquare size={18} /> Logged</> : <><Square size={18} /> Log</>}
