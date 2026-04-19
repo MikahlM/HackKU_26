@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { PieChart, Utensils, Calendar, Users, Gamepad2, Store, Leaf } from 'lucide-react';
+import { PieChart, Utensils, Calendar, Gamepad2, Store, Leaf } from 'lucide-react';
 import { useRealm } from '../context/RealmContext';
 import catpic from '../assets/cat.jpg';
 
@@ -10,7 +10,6 @@ export default function Sidebar() {
     { path: '/', label: 'Dashboard', icon: PieChart },
     { path: '/log', label: 'Meal Log', icon: Utensils },
     { path: '/planner', label: 'Planner', icon: Calendar },
-    { path: '/community', label: 'Community', icon: Users },
     { path: '/realm', label: 'Town', icon: Gamepad2 },
     { path: '/shop', label: 'Shop', icon: Store },
   ];

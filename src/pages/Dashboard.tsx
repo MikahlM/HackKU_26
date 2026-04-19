@@ -260,27 +260,6 @@ export default function Dashboard() {
           Enter town
         </button>
       </div>
-
-      {/* Basic Metrics below */}
-      <div className="card" style={{ gridColumn: 'span 2', marginTop: '1rem' }}>
-        <div className="card-header">
-          <span className="card-title">Daily Summary</span>
-        </div>
-        <div className="grid grid-cols-3" style={{ gap: '1rem', marginTop: '1rem' }}>
-          <div style={{ padding: '1rem', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius-md)' }}>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Calories</div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>{caloriesLogged} / {goals.calories}</div>
-          </div>
-          <div style={{ padding: '1rem', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius-md)' }}>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Steps</div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>8,240</div>
-          </div>
-          <div style={{ padding: '1rem', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius-md)' }}>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>Sleep</div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 700 }}>7h 15m</div>
-          </div>
-        </div>
-      </div>
     </div>
   );
-}
+} 

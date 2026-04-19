@@ -4,7 +4,6 @@ import Topbar from './components/Topbar';
 import Dashboard from './pages/Dashboard';
 import MealLog from './pages/MealLog';
 import Planner from './pages/Planner';
-import Community from './pages/Community';
 import Realm from './pages/Realm';
 import Shop from './pages/Shop';
 import Profile from './pages/Profile';
@@ -18,7 +17,6 @@ function MainLayout() {
     '/': 'Dashboard & Quests',
     '/log': 'Meal Log',
     '/planner': 'Meal Planner',
-    '/community': 'Community Feed',
     '/realm': 'Town Map',
     '/shop': 'Shop',
     '/profile': 'User Profile',
@@ -36,7 +34,6 @@ function MainLayout() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/log" element={<MealLog />} />
             <Route path="/planner" element={<Planner />} />
-            <Route path="/community" element={<Community />} />
             <Route path="/realm" element={<Realm />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/profile" element={<Profile />} />
