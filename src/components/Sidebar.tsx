@@ -11,7 +11,7 @@ export default function Sidebar() {
     { path: '/log', label: 'Meal Log', icon: Utensils },
     { path: '/planner', label: 'Planner', icon: Calendar },
     { path: '/community', label: 'Community', icon: Users },
-    { path: '/realm', label: 'Realm', icon: Gamepad2 },
+    { path: '/realm', label: 'Town', icon: Gamepad2 },
     { path: '/shop', label: 'Shop', icon: Store },
   ];
 

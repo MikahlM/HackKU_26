@@ -12,19 +12,19 @@ import { RealmProvider } from './context/RealmContext';
 
 function MainLayout() {
   const location = useLocation();
-  
+
   // Map routes to titles for Topbar
   const titles: Record<string, string> = {
     '/': 'Dashboard & Quests',
     '/log': 'Meal Log',
     '/planner': 'Meal Planner',
     '/community': 'Community Feed',
-    '/realm': 'Digital Realm Map',
-    '/shop': 'NutriShop',
+    '/realm': 'Town Map',
+    '/shop': 'Shop',
     '/profile': 'User Profile',
   };
-  
-  const currentTitle = titles[location.pathname] || 'NutriSnap';
+
+  const currentTitle = titles[location.pathname] || 'Snap';
 
   return (
     <>

@@ -212,7 +212,7 @@ export default function Dashboard() {
           <h3 style={{ fontSize: '1.25rem', fontWeight: 600 }}>Daily Meals Log</h3>
         </div>
 
-        <p className="text-muted" style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Log your meals below to progress the time of day in the Digital Realm town!</p>
+        <p className="text-muted" style={{ fontSize: '0.9rem', marginBottom: '0.5rem' }}>Log your meals below to progress the time of day in the town!</p>
 
         {/* Breakfast */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem', backgroundColor: mealsLogged.breakfast ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-md)', transition: 'all 0.3s ease' }}>
@@ -252,12 +252,12 @@ export default function Dashboard() {
       <div className="card" style={{ gridColumn: 'span 2', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1rem', backgroundColor: 'rgba(245, 158, 11, 0.05)', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
         <div>
           <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Sparkles size={20} /> View Digital Realm
+            <Sparkles size={20} /> View town
           </h3>
           <p className="text-muted" style={{ fontSize: '0.9rem', marginTop: '0.25rem' }}>Check your town map to see the real-time effects of your logged quests and meals.</p>
         </div>
         <button className="btn" style={{ backgroundColor: 'var(--accent)', color: 'white' }} onClick={() => navigate('/realm')}>
-          Enter Realm
+          Enter town
         </button>
       </div>
 

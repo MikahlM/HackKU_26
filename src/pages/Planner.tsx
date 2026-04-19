@@ -102,7 +102,7 @@ export default function Planner() {
         </div>
 
         <p className="text-muted" style={{ marginBottom: '2rem' }}>
-          Configure your daily targets here. Your progress on the Dashboard and your success in the Digital Realm are directly tied to these values.
+          Configure your daily targets here.
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', flex: 1 }}>
